@@ -1,0 +1,14 @@
+<classpath>
+  <classpathentry output="target/scala-2.11/classes" kind="src" path="src/main/scala"/>
+  <classpathentry output="target/scala-2.11/classes" kind="src" path="src/main/java"/>
+  <classpathentry output="target/scala-2.11/test-classes" kind="src" path="src/test/scala"/>
+  <classpathentry output="target/scala-2.11/test-classes" kind="src" path="src/test/java"/>
+  <classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER"/>
+  <classpathentry kind="lib" path="/Users/pauljohnson/.ivy2/cache/org.scala-lang.modules.scalajs/scalajs-library_2.11/jars/scalajs-library_2.11-0.5.2.jar"/>
+  <classpathentry kind="lib" path="/Users/pauljohnson/.ivy2/cache/org.scala-lang.modules.scalajs/scalajs-dom_sjs0.5_2.11/jars/scalajs-dom_sjs0.5_2.11-0.6.jar"/>
+  <classpathentry kind="lib" path="/Users/pauljohnson/.ivy2/cache/org.scala-lang.modules.scalajs/scalajs-jquery_sjs0.5_2.11/jars/scalajs-jquery_sjs0.5_2.11-0.6.jar"/>
+  <classpathentry kind="lib" path="/Users/pauljohnson/.ivy2/cache/org.webjars/jquery/jars/jquery-1.10.2.jar"/>
+  <classpathentry kind="lib" path="/Users/pauljohnson/.ivy2/cache/com.scalatags/scalatags_sjs0.5_2.11/jars/scalatags_sjs0.5_2.11-0.3.8.jar"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry kind="output" path="bin"/>
+</classpath>

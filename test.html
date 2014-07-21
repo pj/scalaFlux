@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>The Scala.js Tutorial</title>
+  </head>
+  <body>
+      
+    <div id="main"></div>
+  
+    <!-- Include Scala.js compiled code -->
+    <script type="text/javascript" src="./jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="./node/node_modules/virtual-dom/dist/virtual-dom.js"></script>
+    <script type="text/javascript" src="./target/scala-2.11/vdtest-fastopt.js"></script>
+    
+    <!-- Run tutorial.webapp.TutorialApp -->
+    <script type="text/javascript">
+      nz.kiwi.johnson.stuff.TestJS().main();
+      // var vnode = h("div", {}, ["Hello"]);
+      // var tree = render(vnode);               // We need an initial tree
+      // var rootNode = createElement(tree);     // Create an initial root DOM node ...
+      // document.body.appendChild(rootNode);    // ... and it should be in the document
+    </script>
+  </body>
+</html>

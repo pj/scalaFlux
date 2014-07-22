@@ -7,6 +7,7 @@ import org.scalajs.dom.document
 import scala.concurrent.Future
 import org.scalajs.dom.Event
 import scalatags.Text.all._
+import nz.kiwi.johnson.stuff.virtualDom
 
 class Todo(val text: String, val completed: Boolean)
 class TodoState(val todos: js.Array[Todo])

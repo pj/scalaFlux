@@ -7,6 +7,8 @@ import org.scalajs.dom.document
 import scala.concurrent.Future
 import org.scalajs.dom.Event
 import scalatags.Text.all._
+import nz.kiwi.johnson.stuff.virtualDom
+import nz.kiwi.johnson.stuff.VirtualNode
 
 // built in events
 sealed trait Event

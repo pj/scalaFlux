@@ -1,8 +1,10 @@
-package nz.kiwi.johnson.stuff.vdom
+package nz.kiwi.johnson.virtual_dom.vdom
 
 import scalatags.generic
+import nz.kiwi.johnson.virtual_dom.VirtualNode
 
-trait Tags2 extends generic.Tags2[VBuilder, String, String]{
+
+trait Tags2 extends generic.Tags2[VBuilder, VirtualNode, VirtualNode]{
   // Document Metadata
   val title = "title".tag
   val style = "style".tag

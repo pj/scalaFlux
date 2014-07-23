@@ -5,32 +5,32 @@ import org.scalajs.dom.Document
 import org.scalajs.dom.Element
 import org.scalajs.dom.document
 import scala.concurrent.Future
-import org.scalajs.dom.Event
+//import org.scalajs.dom.Event
 import scalatags.Text.all._
-import nz.kiwi.johnson.stuff.virtualDom
-import nz.kiwi.johnson.stuff.VirtualNode
+import nz.kiwi.johnson.virtual_dom.libraryInterface
+import nz.kiwi.johnson.virtual_dom.VirtualNode
 
 // built in events
-sealed trait Event
-case class InitialEvent() extends Event
-case class LocationChangeEvent() extends Event
+sealed trait ApplicationEvent
+case class InitialEvent() extends ApplicationEvent
+//case class LocationChangeEvent() extends ApplicationEvent
 
-class AppState[T](val tree: VirtualNode, val state: T)
-class EventState[T](val state: AppState[T], val event: Event)
+class EventState[T](val state: T, val event: ApplicationEvent)
+class Response[T](val state: T, val tree: VirtualNode)
 
 abstract class App[T >: Null](rootNode: Element) extends js.JSApp() {
-  var currentState: AppState[T] = new AppState[T](null, null)
+  var currentState: Response[T] = new Response[T](null, null)
   
   implicit val executor = JsFuture.InternalCallbackExecutor
   
-  def patchTree(response: Future[AppState[T]]) {
+  def patchTree(response: Future[Response[T]]) {
     response.map {
-      appState => 
-        val patch = virtualDom.diff(currentState.tree, appState.tree)
+      response => 
+        val patch = libraryInterface.diff(currentState.tree, response.tree)
         
-        virtualDom.patch(rootNode, patch)
+        libraryInterface.patch(rootNode, patch)
         
-        currentState = appState
+        currentState = response
     }
   }
   
@@ -43,11 +43,11 @@ abstract class App[T >: Null](rootNode: Element) extends js.JSApp() {
     patchTree(response)
   }
   
-  def runUpdate(event: Event): Unit = {
-    val response = update(new EventState(currentState, event))
+  def runUpdate(event: ApplicationEvent): Unit = {
+    val response = update(new EventState(currentState.state, event))
     
     patchTree(response)
   }
   
-  def update(state: EventState[T]): Future[AppState[T]]
+  def update(state: EventState[T]): Future[Response[T]]
 }

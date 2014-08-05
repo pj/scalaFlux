@@ -11,20 +11,28 @@ import nz.kiwi.johnson.virtual_dom.VirtualDom.all._
 import nz.kiwi.johnson.virtual_dom.VirtualDom.tags2.section
 import nz.kiwi.johnson.virtual_dom.VirtualNode
 
+
+//import scalatags.Text.tags2.address
+
 class Todo(val text: String, val completed: Boolean)
 class TodoState(val todos: js.Array[Todo])
 
-class TestJS(rootNode: Element) extends App[TodoState](rootNode) {
+object TestJS extends App[TodoState] {
+  
+  def getRootNode: Element = {
+    document.getElementById("main")
+  }
+  
   // custom events
   
   // Main event method
   def update(currentState: EventState[TodoState]) = {
     currentState.event match {
       case InitialEvent() => {
-        val vnode = todoApp(currentState.state)
-        
         val newState = new TodoState(js.Array())
-        
+
+        val vnode = todoApp(newState)
+
         JsFuture.successful(new Response(newState, vnode))
       }
       case _ => throw new Exception("Unknown event")
@@ -38,8 +46,10 @@ class TestJS(rootNode: Element) extends App[TodoState](rootNode) {
     section(
         id:="todoapp",
         appHeader(state),
-        main(state),
+        appMain(state),
         appFooter(state)).render
+    
+//    libraryInterface.h("div", null, "asdf")
   }
   
   def appHeader(state: TodoState) = {
@@ -76,10 +86,12 @@ class TestJS(rootNode: Element) extends App[TodoState](rootNode) {
     )
   }
   
-  def main(state: TodoState) = {
+  def appMain(state: TodoState) = {
     val todos = state.todos.map (todo _)
     
-    val listModifiers = (id:="todo-list") +: todos
+    val list = ul(todos: _*)
+    
+    val blah = list.apply((id:="todo-list"))
     
     section(
         id:="main",
@@ -89,7 +101,7 @@ class TestJS(rootNode: Element) extends App[TodoState](rootNode) {
         label(
             `for`:="toggle-all",
             "Mark all as complete"),
-        ul(listModifiers : _*)
+        blah
     )
   }
   

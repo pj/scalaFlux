@@ -4,11 +4,9 @@ import scalatags.generic
 import nz.kiwi.johnson.virtual_dom.VirtualNode
 import nz.kiwi.johnson.virtual_dom.libraryInterface
 
-class VBuilder(var children: Array[Frag] = new Array(4),
-              var attrs: Array[(String, String)] = new Array(4)){
-  final var childIndex = 0
-  final var attrIndex = 0
-  private[this] var styleIndex = -1
+class VBuilder {
+	var currentNode: String = null
+	var currentAttrs: String = null
 
 //  private[this] def increment[T: ClassTag](arr: Array[T], index: Int) = {
 //    if (index >= arr.length){
@@ -54,7 +52,7 @@ class VBuilder(var children: Array[Frag] = new Array(4),
   }
   
   def render(): VirtualNode = {
-    libraryInterface.h("div", null, "asdf")
+    libraryInterface.h("div", null, "Hello World")
   }
 }  
   

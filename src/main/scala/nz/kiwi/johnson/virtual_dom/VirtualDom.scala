@@ -43,7 +43,7 @@ object VirtualDom
     object * extends Cap with Attrs with Styles
   }
   
-  trait Cap extends Util{ self =>
+  trait Cap extends Util { self =>
     type ConcreteHtmlTag[T <: VirtualNode] = TypedTag[T]
 
     protected[this] implicit def stringAttrX = new GenericAttr[String]

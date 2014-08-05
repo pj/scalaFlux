@@ -18,23 +18,41 @@ case class InitialEvent() extends ApplicationEvent
 class EventState[T](val state: T, val event: ApplicationEvent)
 class Response[T](val state: T, val tree: VirtualNode)
 
-abstract class App[T >: Null](rootNode: Element) extends js.JSApp() {
-  var currentState: Response[T] = new Response[T](null, null)
+abstract class App[T >: Null] extends js.JSApp {
+  var currentState: Response[T] = new Response[T](null, libraryInterface.h("div", null, "test"))
+  
+  var rootNode: Element = null
+  
+  def getRootNode: Element
   
   implicit val executor = JsFuture.InternalCallbackExecutor
   
   def patchTree(response: Future[Response[T]]) {
     response.map {
       response => 
+//         try {
+        println(rootNode)
         val patch = libraryInterface.diff(currentState.tree, response.tree)
         
-        libraryInterface.patch(rootNode, patch)
+        val x = libraryInterface.patch(rootNode, patch)
         
         currentState = response
+//         } catch {
+//           case ex: Exception => println(ex.toString())
+//         }
+    } recover {
+      case error => println(error.toString())
     }
   }
   
   def main(): Unit = {
+    // create initial node
+    rootNode = getRootNode
+    
+    val element = libraryInterface.createElement(currentState.tree, null)
+    
+    rootNode.appendChild(element)
+    
     // Send setup event
     val initialEvent = InitialEvent()
     

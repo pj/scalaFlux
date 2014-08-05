@@ -4,7 +4,9 @@ import scala.scalajs.js
 import org.scalajs.dom.Element
 import scala.scalajs.js.annotation.JSName
 
-trait VirtualNode extends js.Object
+trait VirtualNode extends js.Object {
+  var tagName: String
+}
 trait PatchObject extends js.Object
 
 @JSName("virtualDom")

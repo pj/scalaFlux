@@ -2,6 +2,8 @@
 /target
 .settings
 .project
-.class_path
+.classpath
 /project/target
 /project/project
+.DS_Store
+.cache

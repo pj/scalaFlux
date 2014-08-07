@@ -1,0 +1,21 @@
+        <script>
+        
+          function render(count)  {
+    return virtualDom.h('div', 
+                        {"id": "adsf"}, 
+                        [
+                           virtualDom.h('div', 
+                                        {"id": "ererer"}, 
+                                        [String(count)]
+                                        )
+                                        ]
+                                        );
+}
+
+// 2: Initialise the document
+var count = 0;      // We need some app data. Here we just store a count.
+
+var tree = render(count);               // We need an initial tree
+var rootNode = virtualDom.createElement(tree);     // Create an initial root DOM node ...
+document.body.appendChild(rootNode);  
+        </script>

@@ -2,7 +2,7 @@ scalaJSSettings
 
 name := "todomvc-scalajs"
 
-scalaVersion := "2.11.0"
+scalaVersion := "2.11.1"
 
 libraryDependencies += "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6"
 

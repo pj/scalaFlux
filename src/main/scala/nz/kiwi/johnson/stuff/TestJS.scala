@@ -48,8 +48,6 @@ object TestJS extends App[TodoState] {
         appHeader(state),
         appMain(state),
         appFooter(state)).render
-    
-//    libraryInterface.h("div", null, "asdf")
   }
   
   def appHeader(state: TodoState) = {

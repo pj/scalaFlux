@@ -6,7 +6,10 @@ import scala.scalajs.js.annotation.JSName
 
 trait VirtualNode extends js.Object {
   var tagName: String
+  var properties: js.Dynamic
+  var children: js.Dynamic
 }
+
 trait PatchObject extends js.Object
 
 @JSName("virtualDom")

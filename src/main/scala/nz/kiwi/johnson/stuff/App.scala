@@ -30,16 +30,11 @@ abstract class App[T >: Null] extends js.JSApp {
   def patchTree(response: Future[Response[T]]) {
     response.map {
       response => 
-//         try {
-        println(rootNode)
         val patch = libraryInterface.diff(currentState.tree, response.tree)
         
         val x = libraryInterface.patch(rootNode, patch)
         
         currentState = response
-//         } catch {
-//           case ex: Exception => println(ex.toString())
-//         }
     } recover {
       case error => println(error.toString())
     }

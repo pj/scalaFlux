@@ -9,11 +9,11 @@ import scala.annotation.unchecked.uncheckedVariance
 import scalatags.DataConverters
 import scalatags.Escaping
 import scalatags.Companion
-import nz.kiwi.johnson.virtual_dom.vdom.VBuilder
+import scala.scalajs.js.PropertyDescriptor
 
 object VirtualDom
-    extends Bundle[VBuilder, VirtualNode, VirtualNode]
-    with Aliases[VBuilder, VirtualNode, VirtualNode]{
+    extends Bundle[VirtualNode, VirtualNode, VirtualNode]
+    with Aliases[VirtualNode, VirtualNode, VirtualNode]{
   
   object attrs extends VirtualDom.Cap with Attrs
   object tags extends VirtualDom.Cap with vdom.Tags
@@ -54,7 +54,7 @@ object VirtualDom
     }
   }
     
-  trait Aggregate extends generic.Aggregate[VBuilder, VirtualNode, VirtualNode]{
+  trait Aggregate extends generic.Aggregate[VirtualNode, VirtualNode, VirtualNode]{
     def genericAttr[T] = new VirtualDom.GenericAttr[T]
     def genericStyle[T] = new VirtualDom.GenericStyle[T]
 
@@ -70,35 +70,34 @@ object VirtualDom
   type Tag = VirtualDom.TypedTag[VirtualNode]
   val Tag = VirtualDom.TypedTag
 
-  case class StringFrag(v: String) extends vdom.Frag {
-    def render = {
-      libraryInterface.h("div", null, "qwer")
-    }
-  }
-  
-  case class RawFrag(v: String) extends vdom.Frag {
-    def render = libraryInterface.h("div", null, "qwer")
-  }
-  
   object StringFrag extends Companion[StringFrag]
+  case class StringFrag(v: String) extends vdom.Frag{
+    def render = libraryInterface.h("textHolder", js.Object(), v)
+  }
+  
   object RawFrag extends Companion[RawFrag]
+  case class RawFrag(v: String) extends vdom.Frag {
+    def render = libraryInterface.h("textHolder", js.Object(), v)
+  }
   
   class GenericAttr[T] extends AttrValue[T]{
-    def apply(t: VBuilder, a: Attr, v: T): Unit = {
-      t.addAttr(a.name, v.toString)
+    def apply(t: VirtualNode, a: Attr, v: T): Unit = {
+      t.properties.updateDynamic(a.name)(v.toString)
     }
   }
 
   class GenericStyle[T] extends StyleValue[T]{
-    def apply(t: VBuilder, s: Style, v: T): Unit = {
-      t.addAttr("style", v.toString)
+    def apply(t: VirtualNode, s: Style, v: T): Unit = {
+      val attr = t.properties.selectDynamic("style")
+      
+      attr.updateDynamic(s.cssName)(v.toString)
     }
   }
   
   case class TypedTag[+Output <: VirtualNode](tag: String = "",
                                          modifiers: List[Seq[Modifier]],
                                          void: Boolean = false)
-                                         extends generic.TypedTag[VBuilder, Output, VirtualNode]
+                                         extends generic.TypedTag[VirtualNode, Output, VirtualNode]
                                          with vdom.Frag {
     // unchecked because Scala 2.10.4 seems to not like this, even though
     // 2.11.1 works just fine. I trust that 2.11.1 is more correct than 2.10.4
@@ -110,10 +109,10 @@ object VirtualDom
     }
       
     def render() = {
-      val builder = new VBuilder()
+      val builder = libraryInterface.h(tag, js.Object(), "")
       build(builder)
       
-      builder.render().asInstanceOf[Output]
+      builder.asInstanceOf[Output]
     }
   }
 }

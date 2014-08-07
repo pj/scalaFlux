@@ -2,8 +2,9 @@ package nz.kiwi.johnson.virtual_dom.vdom
 
 import scalatags.generic
 import nz.kiwi.johnson.virtual_dom.VirtualNode
+import nz.kiwi.johnson.virtual_dom.VirtualNode
 
-trait Tags extends generic.Tags[VBuilder, VirtualNode, VirtualNode]{
+trait Tags extends generic.Tags[VirtualNode, VirtualNode, VirtualNode]{
   // Root Element
   val html = "html".tag
   // Document Metadata

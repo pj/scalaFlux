@@ -19,7 +19,7 @@ class EventState[T](val state: T, val event: ApplicationEvent)
 class Response[T](val state: T, val tree: VirtualNode)
 
 abstract class App[T >: Null] extends js.JSApp {
-  var currentState: Response[T] = new Response[T](null, libraryInterface.h("div", null, "test"))
+  var currentState: Response[T] = new Response[T](null, libraryInterface.h("div", js.Object(), "test"))
   
   var rootNode: Element = null
   

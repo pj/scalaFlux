@@ -9,7 +9,12 @@
   <classpathentry kind="lib" path="/Users/pauljohnson/.ivy2/cache/org.scala-lang.modules.scalajs/scalajs-jquery_sjs0.5_2.11/jars/scalajs-jquery_sjs0.5_2.11-0.6.jar"/>
   <classpathentry kind="lib" path="/Users/pauljohnson/.ivy2/cache/org.webjars/jquery/jars/jquery-1.10.2.jar"/>
   <classpathentry kind="lib" path="/Users/pauljohnson/.ivy2/cache/com.scalatags/scalatags_sjs0.5_2.11/jars/scalatags_sjs0.5_2.11-0.3.8.jar"/>
-  <classpathentry kind="lib" path="/Users/pauljohnson/.ivy2/local/nz.kiwi.johnson/scalatags-virtual-dom_sjs0.5_2.11/0.5/jars/scalatags-virtual-dom_sjs0.5_2.11.jar"/>
+  <classpathentry kind="lib" path="/Users/pauljohnson/.ivy2/local/nz.kiwi.johnson/scalatags-virtual-dom_sjs0.5_2.11/0.5.1/jars/scalatags-virtual-dom_sjs0.5_2.11.jar"/>
+  <classpathentry kind="lib" path="/Users/pauljohnson/.ivy2/cache/com.github.japgolly.fork.monocle/monocle-core_sjs0.5_2.11/jars/monocle-core_sjs0.5_2.11-0.5.0.jar"/>
+  <classpathentry kind="lib" path="/Users/pauljohnson/.ivy2/cache/com.github.japgolly.fork.scalaz/scalaz-core_sjs0.5_2.11/bundles/scalaz-core_sjs0.5_2.11-7.1.0.jar"/>
+  <classpathentry kind="lib" path="/Users/pauljohnson/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.11/bundles/scala-parser-combinators_2.11-1.0.2.jar"/>
+  <classpathentry kind="lib" path="/Users/pauljohnson/.ivy2/cache/org.scala-lang.modules/scala-xml_2.11/bundles/scala-xml_2.11-1.0.2.jar"/>
+  <classpathentry kind="lib" path="/Users/pauljohnson/.ivy2/cache/com.scalarx/scalarx_sjs0.5_2.11/jars/scalarx_sjs0.5_2.11-0.2.6.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="output" path="bin"/>
 </classpath>

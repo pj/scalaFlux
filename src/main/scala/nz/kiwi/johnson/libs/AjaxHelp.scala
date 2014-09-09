@@ -1,9 +1,9 @@
-package nz.kiwi.johnson.stuff
+package nz.kiwi.johnson.libs
 
 import org.scalajs.jquery.{JQueryAjaxSettings, JQueryStatic}
 import scala.scalajs.js
 import scala.concurrent.Future
-import org.scalajs.dom.window
+import scala.scalajs.js.Any.fromFunction1
 
 //////////////////////////////////////////////////////////////
 // Copyright (c) 2013 Ben Jackman, Jeff Gomberg

@@ -1,14 +1,14 @@
-package nz.kiwi.johnson.stuff
+package nz.kiwi.johnson.old
 
 import scala.scalajs.js
 import org.scalajs.dom.Document
 import org.scalajs.dom.Element
 import org.scalajs.dom.document
 import scala.concurrent.Future
-//import org.scalajs.dom.Event
 import scalatags.Text.all._
-import nz.kiwi.johnson.virtual_dom.libraryInterface
-import nz.kiwi.johnson.virtual_dom.VirtualNode
+import nz.kiwi.johnson.libs.JsFuture
+import scalatags.libraryInterface
+import scalatags.VirtualNode
 
 // built in events
 sealed trait ApplicationEvent

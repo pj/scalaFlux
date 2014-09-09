@@ -1,19 +1,32 @@
 package nz.kiwi.johnson.stuff
 
 import scala.scalajs.js
+import monocle.syntax._
+import monocle.function.HeadOption._
+import monocle.std.string._
+import monocle.SimpleLens
+import monocle.SimpleOptional
+import monocle.SimpleTraversal
 
-class Todo(val text: String, val completed: Boolean, val id: String) {
-  def completedChecked() = {
-    if (completed) "true" else "false"
-  }  
+sealed trait FilterState
+case class All() extends FilterState
+case class Active() extends FilterState
+case class Completed() extends FilterState
+
+case class Todo(val text: String, val id: String, val visible: Boolean = true, val completed: Boolean = false) {
   
   def completedClass() = {
-    if (completed) "completed" else null
+    if (completed) "completed" else ""
   } 
 }
 
-class TodoState(val todos: js.Array[Todo], val editing: Option[String] = None, 
-    val filter: Option[String] = None, val entry: Option[String] = None) {
+case class TodoState(
+    val todos: List[Todo], 
+    val editing: Option[String] = None, 
+    val filter: FilterState = All(), 
+    val entry: Option[String] = None,
+    val currentNumber: Int = 0,
+    val toggle: Boolean = false) {
   
   def editing(todo: Todo): String = {
     editing match {
@@ -28,4 +41,13 @@ class TodoState(val todos: js.Array[Todo], val editing: Option[String] = None,
       case None => ""
     }
   }
+}
+
+object TodoStateLenses {
+//  val filterLens = SimpleLens[TodoState](_.filter)()
+  val filterLens = SimpleLens[TodoState, FilterState](_.filter, (state, value) => state.copy(filter=value))
+  
+  val todosLens = SimpleLens[TodoState, List[Todo]](_.todos, (state, value) => state.copy(todos=value))
+  
+  val visibleLens = SimpleLens[Todo, Boolean](_.visible, (state, value) => state.copy(visible=value))
 }

@@ -1,24 +1,20 @@
-package nz.kiwi.johnson.stuff
+package nz.kiwi.johnson.old
 
 import scala.scalajs.js
-import org.scalajs.dom.Document
 import org.scalajs.dom.Element
-import org.scalajs.dom.document
-import org.scalajs.dom.window
 import scala.scalajs.js.Math
-import scala.concurrent.Future
-
 import scalatags.Text.all._
-import nz.kiwi.johnson.virtual_dom.libraryInterface
-import nz.kiwi.johnson.virtual_dom.VirtualNode
-
 import org.scalajs.jquery.jQuery
 import org.scalajs.jquery.JQueryEventObject
-
 import rx.Rx
 import rx.Var
 import rx.Obs
-import rx.core.Emitter
+import scala.scalajs.js.Any.fromFunction1
+import scala.scalajs.js.Any.jsArrayOps
+import scalatags.VirtualNode
+import scalatags.libraryInterface
+import org.scalajs.dom.document
+import org.scalajs.dom.window
 
 object FRPApp extends js.JSApp {
   

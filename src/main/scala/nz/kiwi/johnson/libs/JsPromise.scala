@@ -1,4 +1,4 @@
-package nz.kiwi.johnson.stuff
+package nz.kiwi.johnson.libs
 
 import scala.util.{Failure, Success, Try}
 import scala.concurrent.duration.Duration
@@ -7,7 +7,11 @@ import scala.concurrent.{ExecutionContext, CanAwait, Promise, Future}
 import scala.util.control.NonFatal
 import scala.reflect.ClassTag
 import scala.scalajs.js
-import org.scalajs.dom.console 
+import scala.runtime.BoxedUnit
+import scala.scalajs.js.Any.fromFunction0
+import scala.scalajs.js.Any.fromInt
+import scala.scalajs.js.Any.fromString
+import org.scalajs.dom.console
 import org.scalajs.dom.setTimeout
 
 //////////////////////////////////////////////////////////////

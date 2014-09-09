@@ -170,13 +170,19 @@ function createVirtualText(text) {
     return new VirtualText(text);
 }
 
+function removeAddListener(event, element, name, listener) {
+    element.removeEventListener(name, event.listener_id)
+    event.listener_id = element.addEventListener(name, listener)
+}
+
 module.exports = {
     diff: diff,
     patch: patch,
     h: h,
     createElement: createElement,
     VirtualText: VirtualText,
-    createVirtualText: createVirtualText
+    createVirtualText: createVirtualText,
+    removeAddListener: removeAddListener
 }
 
 },{"./create-element.js":1,"./diff.js":2,"./h.js":3,"./patch.js":29,"vtree/vtext.js":26}],7:[function(_dereq_,module,exports){
@@ -328,7 +334,7 @@ function applyProperties(node, props, previous) {
         } else if (isHook(propValue)) {
             propValue.hook(node,
                 propName,
-                previous ? previous[propName] : null)
+                previous ? previous[propName] : undefined)
         } else {
             if (isObject(propValue)) {
                 patchObject(node, props, previous, propName, propValue);

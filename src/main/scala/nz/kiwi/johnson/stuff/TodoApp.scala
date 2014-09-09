@@ -1,7 +1,6 @@
 package nz.kiwi.johnson.stuff
 
 import scala.scalajs.js
-import scala.scalajs.js
 import scala.scalajs.js.Any.fromFunction1
 import scala.scalajs.js.Any.jsArrayOps
 import org.scalajs.dom.Document
@@ -13,7 +12,6 @@ import monocle.function._
 import monocle.function.HeadOption._
 import monocle.syntax.lens._
 import nz.kiwi.johnson.framework.App
-import nz.kiwi.johnson.framework.ApplicationEvent
 import nz.kiwi.johnson.framework.ExceptionEvent
 import nz.kiwi.johnson.framework.InitEvent
 import nz.kiwi.johnson.stuff.TodoHTML.todoView
@@ -23,10 +21,8 @@ import nz.kiwi.johnson.framework.ExceptionEvent
 import monocle.function.each
 import monocle.std.listEach
 import nz.kiwi.johnson.framework.CheckboxToggleEvent
-import nz.kiwi.johnson.framework.KeyUpEvent
 import nz.kiwi.johnson.framework.EnteredEvent
-import scala.util.Random
-import nz.kiwi.johnson.stuff.Delete
+import nz.kiwi.johnson.framework.DetailsEvent
 
 object TodoApp extends App[TodoState] {
 	def getRootNode = document.getElementById("main")
@@ -35,7 +31,7 @@ object TodoApp extends App[TodoState] {
 	  TodoHTML.todoView(state)
 	}
 	
-	def update(currentState: TodoState, event: ApplicationEvent) = {
+	def update(currentState: TodoState, event: DetailsEvent[_]) = {
 	  event match {
 	  case InitEvent() => 
 	    val initialState = TodoState(List())
@@ -83,7 +79,7 @@ object TodoApp extends App[TodoState] {
 	    
 	    respond(nextState)
 	    
-	  case ExceptionEvent(exception, path) => {
+	  case ExceptionEvent(exception) => {
 	    println("Something bad happened" + exception.toString)
 	    
 	    respond(currentState)

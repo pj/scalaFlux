@@ -14,16 +14,9 @@ import scalajs.js
 import scala.scalajs.js.annotation.JSExport
 import nz.kiwi.johnson.framework.OnClickEvent
 import nz.kiwi.johnson.framework.App
-import nz.kiwi.johnson.framework.BaseHook
 import nz.kiwi.johnson.framework.EventAttr._
-import nz.kiwi.johnson.framework.CheckboxToggleEvent
-import nz.kiwi.johnson.framework.ToggleAttr._
-import nz.kiwi.johnson.framework.KeyUpEvent
-import nz.kiwi.johnson.framework.KeyUpAttr._
-import nz.kiwi.johnson.framework.EnteredAttr._
 import nz.kiwi.johnson.framework.EnteredEvent
-import nz.kiwi.johnson.framework.OnClickEvent
-import nz.kiwi.johnson.framework.DeleteAttr._
+import nz.kiwi.johnson.framework.CheckboxToggleEvent
 
 object TodoHTML {
   // methods for generating visuals using scalatags and virtualdom helper
@@ -75,7 +68,8 @@ object TodoHTML {
             label(todo.text),
             button(
                 `class`:="destroy",
-                onclick:=Delete(todo.id))
+                onclick:=Delete(todo.id),
+                id:=todo.id)
         ),
         input(`class`:="edit", value:=todo.text)
     )

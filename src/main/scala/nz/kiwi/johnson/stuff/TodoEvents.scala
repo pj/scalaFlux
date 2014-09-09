@@ -4,15 +4,12 @@ import nz.kiwi.johnson.framework.OnClickEvent
 import scalatags.generic
 import scalatags.VirtualNode
 import nz.kiwi.johnson.framework.EventAttr
-import nz.kiwi.johnson.framework.ApplicationEvent
 import nz.kiwi.johnson.framework.DetailsEvent
-import nz.kiwi.johnson.framework.KeyUpEvent
 
-case class Filter(val filterKey: FilterState) 
-    extends OnClickEvent[FilterState](filterKey, null)
+case class Filter(override val identifier: FilterState) 
+    extends DetailsEvent(identifier)
     
-case class Delete(override val details: String) 
-	extends DetailsEvent[String](details)
+case class Delete(override val identifier: String) 
+	extends DetailsEvent(identifier)
 
-    
-case class ClearCompleted() extends ApplicationEvent
+case class ClearCompleted() extends DetailsEvent(false)

@@ -32,11 +32,11 @@ abstract class App[T >: Null] extends js.JSApp {
     currentTree = nextTree
   }
   
-  class UnknownEventException(val msg: String, val event: ApplicationEvent) extends Exception(msg)
+  class UnknownEventException(val msg: String, val event: DetailsEvent[_]) extends Exception(msg)
   
-  val unknownFunction: PartialFunction[(T, ApplicationEvent), Unit] = {
-	case unknown: ApplicationEvent => {
-		val errorEvent = ExceptionEvent(new UnknownEventException("Unknown Event", unknown), null)
+  val unknownFunction: PartialFunction[(T, DetailsEvent[_]), Unit] = {
+	case (currentState, unknown) => {
+		val errorEvent = ExceptionEvent(new UnknownEventException("Unknown Event", unknown))
 		
 		val response = update(currentState, errorEvent)
 	  }
@@ -63,11 +63,11 @@ abstract class App[T >: Null] extends js.JSApp {
 //    patchTree(response)
   }
   
-  def runUpdate(event: ApplicationEvent): Unit = {
+  def runUpdate(event: DetailsEvent[_]): Unit = {
     update(currentState, event)
   }
   
-  def update(state: T, event: ApplicationEvent): Unit
+  def update(state: T, event: DetailsEvent[_]): Unit
   
   
   def defaultView(state: T): VirtualNode

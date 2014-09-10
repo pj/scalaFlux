@@ -1,6 +1,6 @@
 scalaJSSettings
 
-name := "todomvc-scalajs"
+name := "scalaFlux"
 
 scalaVersion := "2.11.2"
 

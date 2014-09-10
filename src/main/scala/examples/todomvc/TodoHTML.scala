@@ -1,22 +1,11 @@
-package nz.kiwi.johnson.stuff
+package examples.todomvc
 
 import scalatags.VirtualNode
 import scalatags.VirtualDom.all._
-import scalatags.vdom.Frag
+import scalatags.VirtualDom._
 import scalatags.VirtualDom.tags2.section
-import org.scalajs.jquery.jQuery
-import scalatags.generic
-import scalatags.`package`.Companion
-import scalatags.libraryInterface
-import scalatags.VirtualDom
-import org.scalajs.dom.{Node, Element, Event}
-import scalajs.js
-import scala.scalajs.js.annotation.JSExport
-import nz.kiwi.johnson.framework.OnClickEvent
-import nz.kiwi.johnson.framework.App
-import nz.kiwi.johnson.framework.EventAttr._
-import nz.kiwi.johnson.framework.EnteredEvent
-import nz.kiwi.johnson.framework.CheckboxToggleEvent
+import scala_flux._
+import scala_flux.EventAttr._
 
 object TodoHTML {
   // methods for generating visuals using scalatags and virtualdom helper
@@ -38,26 +27,18 @@ object TodoHTML {
             placeholder:="What needs to be done?",
             autofocus:="true",
             `type`:="text",
-            value:=state.entryText,
             onkeypress:=EnteredEvent("main")
             )
         )
   }
-
-  /* 
-	<li class="completed">
-		<div class="view">
-			<input class="toggle" type="checkbox" checked>
-			<label>Create a TodoMVC template</label>
-			<button class="destroy"></button>
-		</div>
-		<input class="edit" value="Create a TodoMVC template">
-	</li>
-  */
+  
+  val hookAttr = scalatags.generic.Attr("hookAttr")
   
   def todoItem(state: TodoState, todo: Todo) = {
+    val editing = state.editing.map (_ == todo.id) getOrElse (false)
+    
     li(
-        `class`:=todo.completedClass,
+        `class`:=(if (editing) "editing" else ""),
         div(
             `class`:="view",
             input(
@@ -65,19 +46,36 @@ object TodoHTML {
                 `type`:="checkbox", 
                 checked:=todo.completed,
                 onclick:=CheckboxToggleEvent(todo.id)),
-            label(todo.text),
+            label(
+                todo.text,
+                onclick:=StartEdit(todo.id)
+            ),
             button(
                 `class`:="destroy",
                 onclick:=Delete(todo.id),
                 id:=todo.id)
         ),
-        input(`class`:="edit", value:=todo.text)
+        input(
+            `class`:="edit", 
+            value:=todo.text,
+            onkeypress:=EnteredEventNoClear(todo.id),
+            onblur:=StopEdit(todo.id),
+            hookAttr:=FocusHook(editing)
+            )
     )
   }
   
   def appMain(state: TodoState) = {
-    val todos = state.todos.map {
-      todo: Todo => todoItem(state, todo)
+    val todos = state.todos.filter {
+      todo=> 
+        state.filter match {
+          case All() => true
+          case Completed() if todo.completed => true
+          case Active() if !todo.completed => true
+          case _ => false
+        }
+    } map {
+      todo => todoItem(state, todo)
     }
     
     val x = ul(id:="todo-list")(todos: _*)
@@ -86,7 +84,9 @@ object TodoHTML {
         input(
             id:="toggle-all",
             `type`:="checkbox",
-            onclick:=CheckboxToggleEvent("all")),
+            onclick:=CheckboxToggleEvent("all"),
+            checked:=state.toggle
+            ),
         label(
             `for`:="toggle-all",
             "Mark all as complete")
@@ -109,8 +109,10 @@ object TodoHTML {
     val completed = state.todos.foldLeft(0) {
       case (sum, todo) => if (todo.completed) sum + 1 else sum 
     }
-    val f = footer(
+    
+    footer(
         id:="footer",
+        if (length == 0) display.none else UnitNode(Unit),
         span(
             id:="todo-count",
             strong(length-completed),
@@ -144,12 +146,10 @@ object TodoHTML {
         ),
         button(
             id:="clear-completed", 
-            s"Clear completed ($completed)"
+            s"Clear completed ($completed)",
+            onclick:=ClearCompleted(),
+            if (completed == 0) display.none else UnitNode(Unit)
         )
     )
-    
-    if (length < 0) f.modifiers :+ (display.none)
-
-    f
   }
 }

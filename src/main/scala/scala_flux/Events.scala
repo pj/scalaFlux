@@ -14,12 +14,12 @@ import scalatags.generic
 abstract class DetailsEvent[E](val identifier: E) {
   var eventName: String = ""
   var underlyingEvent: Event = null
-  
-  val listener = {jsEvent: Event =>
-      underlyingEvent = jsEvent
-	  App.currentApp.runUpdate(this)
+
+  val listener = { jsEvent: Event =>
+    underlyingEvent = jsEvent
+    App.currentApp.runUpdate(this)
   }
-  
+
   @JSExport
   def hook(element: Element, name: String, previous: js.Any): Unit = {
     jQuery(element).off(this.eventName)
@@ -28,71 +28,71 @@ abstract class DetailsEvent[E](val identifier: E) {
 }
 
 // Sent by the App when intialising the application
-case class InitEvent() 
-	extends DetailsEvent(Unit)
-	
+case class InitEvent()
+  extends DetailsEvent(Unit)
+
 // Sent when any error occurs in the application
-case class ExceptionEvent[E <: Throwable](val exception: E, val event: DetailsEvent[_]) 
-	extends DetailsEvent(exception)
+case class ExceptionEvent[E <: Throwable](val exception: E, val event: DetailsEvent[_])
+  extends DetailsEvent(exception)
 
 // TODO: Include chain of parents as path value.
-case class OnClickEvent[E](override val identifier: E, val path: Seq[VirtualNode] = null) 
-	extends DetailsEvent[E](identifier) {
+case class OnClickEvent[E](override val identifier: E, val path: Seq[VirtualNode] = null)
+  extends DetailsEvent[E](identifier) {
 }
 
 // Event that retrieves and sets the value from a checkbox.
-case class CheckboxToggleEvent[E](override val identifier: E, val toggleState: Boolean = false) 
+case class CheckboxToggleEvent[E](override val identifier: E, val toggleState: Boolean = false)
   extends DetailsEvent[E](identifier) {
-  
-  override val listener = {jsEvent: Event =>
+
+  override val listener = { jsEvent: Event =>
     underlyingEvent = jsEvent
     val value = jsEvent.target.asInstanceOf[js.Dynamic].selectDynamic("checked").asInstanceOf[Boolean]
-    
-    App.currentApp.runUpdate(this.copy(toggleState=value))
+
+    App.currentApp.runUpdate(this.copy(toggleState = value))
   }
 }
 
 // Waits for a carriage return on a text input field before issuing the underlying event with the text.
-case class EnteredEvent[E](override val identifier: E, val text: String = "") 
+case class EnteredEvent[E](override val identifier: E, val text: String = "")
   extends DetailsEvent[E](identifier) {
-  
-  override val listener = {jsEvent: Event =>
+
+  override val listener = { jsEvent: Event =>
     underlyingEvent = jsEvent
-	val value = jsEvent.asInstanceOf[js.Dynamic].selectDynamic("keyCode").asInstanceOf[Int]
-	  
-	if (value == '\r') {
-	  val text = jsEvent.target.asInstanceOf[js.Dynamic].selectDynamic("value").asInstanceOf[String]
-	  App.currentApp.runUpdate(this.copy(text=text))  
-	  jsEvent.target.asInstanceOf[js.Dynamic].updateDynamic("value")("")
-	}
+    val value = jsEvent.asInstanceOf[js.Dynamic].selectDynamic("keyCode").asInstanceOf[Int]
+
+    if (value == '\r') {
+      val text = jsEvent.target.asInstanceOf[js.Dynamic].selectDynamic("value").asInstanceOf[String]
+      App.currentApp.runUpdate(this.copy(text = text))
+      jsEvent.target.asInstanceOf[js.Dynamic].updateDynamic("value")("")
+    }
   }
 }
 
 // Same as above but doesn't clear the text box after issuing the event.
-case class EnteredEventNoClear[E](override val identifier: E, val text: String = "") 
+case class EnteredEventNoClear[E](override val identifier: E, val text: String = "")
   extends DetailsEvent[E](identifier) {
-  
-  override val listener = {jsEvent: Event =>
+
+  override val listener = { jsEvent: Event =>
     underlyingEvent = jsEvent
-	val value = jsEvent.asInstanceOf[js.Dynamic].selectDynamic("keyCode").asInstanceOf[Int]
-	  
-	if (value == '\r') {
-	  val text = jsEvent.target.asInstanceOf[js.Dynamic].selectDynamic("value").asInstanceOf[String]
-	  App.currentApp.runUpdate(this.copy(text=text))
-	}
+    val value = jsEvent.asInstanceOf[js.Dynamic].selectDynamic("keyCode").asInstanceOf[Int]
+
+    if (value == '\r') {
+      val text = jsEvent.target.asInstanceOf[js.Dynamic].selectDynamic("value").asInstanceOf[String]
+      App.currentApp.runUpdate(this.copy(text = text))
+    }
   }
 }
 
 // Not an event exactly, just sets focus on an element in response to focus being set
 // to true.
-case class FocusHook(val focus: Boolean) 
-	extends DetailsEvent(Unit) {
-  
+case class FocusHook(val focus: Boolean)
+  extends DetailsEvent(Unit) {
+
   @JSExport
   override def hook(element: Element, name: String, previous: js.Any): Unit = {
     if (focus) {
       jQuery(element).focus()
-    } 
+    }
   }
 }
 
